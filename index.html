@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMATT Web Solutions</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+/* ================= BASE ================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  line-height: 1.7;
+  scroll-behavior: smooth;
+}
+a { text-decoration: none; color: inherit; }
+section { padding: 80px 20px; position: relative; overflow: hidden; }
+h1, h2, h3 { font-weight: 700; margin-bottom: 15px; }
+p { margin-bottom: 18px; opacity: 0.95; }
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ================= HEADER ================= */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #0073e6;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+}
+header h2 { font-size: 22px; }
+nav { display: flex; gap: 25px; }
+nav a { font-weight: 500; }
+
+.menu-toggle { display: none; font-size: 28px; cursor: pointer; }
+.nav-close {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 26px;
+  cursor: pointer;
+  color: #fff;
+}
+
+@media (max-width:768px) {
+  nav {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    height: 100%;
+    width: 250px;
+    background: #0073e6;
+    flex-direction: column;
+    padding-top: 80px;
+    transition: left 0.3s ease;
+    z-index: 999;
+  }
+  nav.open { left: 0; }
+  nav a { color: #fff; margin: 20px 0; font-size: 18px; }
+  .menu-toggle { display: block; color: #fff; }
+  .nav-close { display: block; }
+
+  .backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+  }
+  .backdrop.show { display: block; }
+}
+
+/* ================= HERO ================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  background:
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url('images/hero-bg.png') center/cover no-repeat;
+}
+.hero h1 {
+  font-size: 48px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroTitle 1.2s ease forwards;
+}
+.hero p {
+  font-size: 20px;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroText 1s ease forwards;
+  animation-delay: 0.4s;
+}
+
+/* ================= SECTIONS ================= */
+.section-alt-1 { background: #f9f9f9; }
+.section-alt-2 { background: #fff; }
+
+/* Subtle background shimmer */
+.section-alt-1::before,
+.section-alt-2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(0,115,230,0.04),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.section-bg-visible::before { opacity: 1; }
+
+/* ================= HEADINGS ================= */
+.section-heading {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.section-heading.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section-heading::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #0073e6;
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* ================= CONTENT & CARDS ================= */
+.section-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.section-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.card strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #0073e6;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background: #222;
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes heroTitle {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroText {
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <span class="menu-toggle"><i class="bi bi-list"></i></span>
+  <h2>IMATT WEB SOLUTIONS</h2>
+  <nav>
+    <span class="nav-close"><i class="bi bi-x-lg"></i></span>
+    <a href="#who-we-are">Who We Are</a>
+    <a href="#features">Features</a>
+    <a href="#work">Our Work</a>
+    <a href="#pricing">Pricing</a>
+  </nav>
+</header>
+<div class="backdrop"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Modern Websites That Grow Your Business</h1>
+  <p>
+    We design and develop professional websites that help businesses build trust,
+    communicate value clearly, and convert visitors into real enquiries.
+    Every website we create is carefully crafted to support long-term growth.
+  </p>
+</section>
+
+<!-- SELECTED WORK -->
+<section id="work" class="section-alt-1">
+  <h3 class="section-heading">Selected Work</h3>
+  <p class="section-content">
+    Over the years, we’ve had the opportunity to work with businesses from a wide range of industries.
+    Our selected work reflects our focus on clean design, strong usability, and websites that deliver measurable results.
+    Each project is approached with the same attention to detail and commitment to quality.
+  </p>
+  <div class="grid">
+    <div class="card">Business websites designed to establish credibility and generate consistent enquiries.</div>
+    <div class="card">E-commerce stores built for speed, mobile usability, and higher conversion rates.</div>
+    <div class="card">Portfolio and brochure websites that clearly showcase services, skills, and experience.</div>
+  </div>
+</section>
+
+<!-- WORK COMPLETED -->
+<section class="section-alt-2">
+  <h3 class="section-heading">Work Completed</h3>
+  <p class="section-content">
+    We take pride in delivering websites that genuinely help our clients move forward.
+    Below are some recent projects completed for local and growing businesses,
+    each tailored to suit the client’s brand, audience, and business objectives.
+  </p>
+  <div class="grid">
+    <div class="card">
+      <strong>Pensnett Fish Bar</strong>
+      <p>A mobile-friendly takeaway website designed to display menus clearly, highlight opening hours, and make contact simple for customers.</p>
+    </div>
+    <div class="card">
+      <strong>Gulf Motors</strong>
+      <p>A professional automotive website focused on showcasing vehicles, building customer trust, and increasing enquiry rates.</p>
+    </div>
+    <div class="card">
+      <strong>Chicken Star</strong>
+      <p>A modern food business website that highlights branding, menu items, and fast communication options for customers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="section-alt-1">
+  <h3 class="section-heading">Pricing Packages</h3>
+  <p class="section-content">
+    Our pricing is clear, transparent, and designed to suit businesses at different stages.
+    We focus on delivering value rather than unnecessary extras, ensuring you get a website that performs.
+    Every package can be tailored to your specific requirements.
+  </p>
+  <div class="grid">
+    <div class="card">Starter – Ideal for small businesses needing a professional online presence. From 199</div>
+    <div class="card">Professional – Perfect for growing businesses looking for SEO and scalability. From 399</div>
+    <div class="card">Premium – Advanced websites with custom design and ongoing support. From 699</div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section-alt-2">
+  <h3 class="section-heading">Our Process</h3>
+  <p class="section-content">
+    We follow a proven, structured process to ensure every project runs smoothly.
+    Clear communication and transparency are maintained at every stage,
+    allowing us to deliver reliable results on time and within scope.
+  </p>
+  <div class="grid">
+    <div class="card">Strategy & discovery to understand your goals and audience.</div>
+    <div class="card">Design focused on usability, branding, and conversion.</div>
+    <div class="card">Development using clean, secure, and responsive code.</div>
+    <div class="card">Launch, testing, and post-launch guidance.</div>
+  </div>
+</section>
+
+<!-- WHO WE ARE -->
+<section id="who-we-are" class="section-alt-1">
+  <h3 class="section-heading">Who We Are</h3>
+  <p class="section-content">
+    IMATT Web Solutions is a UK-based web design and development studio dedicated to helping
+    small and growing businesses succeed online. We combine creative design, technical expertise,
+    and strategic thinking to build websites that support real business goals.
+    By working closely with our clients, we ensure every project reflects their brand,
+    connects with their audience, and delivers lasting value.
+  </p>
+</section>
+
+<!-- WHAT MAKES US DIFFERENT -->
+<section class="section-alt-2">
+  <h3 class="section-heading">What Makes Our Websites Different</h3>
+  <p class="section-content">
+    We don’t believe in one-size-fits-all solutions. Every website we build is designed
+    with performance, clarity, and conversion in mind.
+    Our focus is on creating digital experiences that work as effective business tools.
+  </p>
+  <div class="grid">
+    <div class="card">Layouts designed to guide users toward meaningful actions.</div>
+    <div class="card">Fast-loading, mobile-first performance across all devices.</div>
+    <div class="card">SEO-friendly structure built to improve online visibility.</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="section-alt-1">
+  <h3 class="section-heading">Website Features Included</h3>
+  <p class="section-content">
+    Every website we deliver includes a comprehensive set of features as standard.
+    These are chosen to enhance user experience, improve performance,
+    and make your website easy to manage and grow.
+  </p>
+  <div class="grid">
+    <div class="card">Fully responsive design for all screen sizes.</div>
+    <div class="card">Optimised loading speed and performance.</div>
+    <div class="card">SEO-ready structure to support organic growth.</div>
+    <div class="card">Clear calls-to-action to encourage enquiries.</div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section-alt-2">
+  <h3 class="section-heading">What Our Clients Say</h3>
+  <p class="section-content">
+    Client satisfaction is central to everything we do.
+    We focus on building long-term relationships based on trust, communication, and results.
+    Here’s what some of our clients have said about working with us.
+  </p>
+  <div class="grid">
+    <div class="card">“Professional, reliable, and the website has brought us more enquiries.”</div>
+    <div class="card">“Clear communication, fair pricing, and excellent results.”</div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 IMATT Web Solutions. All rights reserved.</p>
+</footer>
+
+<script>
+/* Mobile menu */
+const menuToggle = document.querySelector('.menu-toggle');
+const nav = document.querySelector('nav');
+const backdrop = document.querySelector('.backdrop');
+const navClose = document.querySelector('.nav-close');
+
+menuToggle.addEventListener('click', () => {
+  nav.classList.add('open');
+  backdrop.classList.add('show');
+});
+function closeMenu() {
+  nav.classList.remove('open');
+  backdrop.classList.remove('show');
+}
+navClose.addEventListener('click', closeMenu);
+backdrop.addEventListener('click', closeMenu);
+
+/* Observers */
+const headingObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+}, { threshold: 0.3 });
+document.querySelectorAll('.section-heading').forEach(h => headingObserver.observe(h));
+
+const contentObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+}, { threshold: 0.3 });
+document.querySelectorAll('.section-content').forEach(p => contentObserver.observe(p));
+
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('section-bg-visible');
+      entry.target.querySelectorAll('.card').forEach((card, i) => {
+        setTimeout(() => card.classList.add('visible'), i * 120);
+      });
+      sectionObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('section').forEach(sec => sectionObserver.observe(sec));
+</script>
+
+</body>
+</html>
