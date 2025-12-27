@@ -9,210 +9,184 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
-/* ================= BASE ================= */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Inter', sans-serif;
-  color: #333;
-  line-height: 1.7;
-  scroll-behavior: smooth;
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;
+  color:#333;
+  line-height:1.7;
+  scroll-behavior:smooth;
 }
-a { text-decoration: none; color: inherit; }
-section { padding: 80px 20px; position: relative; overflow: hidden; }
-h1, h2, h3 { font-weight: 700; margin-bottom: 15px; }
-p { margin-bottom: 18px; opacity: 0.95; }
+section{padding:90px 20px;position:relative}
+h1,h2,h3,h4{font-weight:700;margin-bottom:15px}
+p{margin-bottom:18px}
+a{text-decoration:none;color:inherit}
 
-/* Reduced motion accessibility */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-    transform: none !important;
+/* HEADER */
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#0073e6;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+  transition:.3s;
+}
+header.scrolled{box-shadow:0 6px 15px rgba(0,0,0,.2)}
+nav{display:flex;gap:25px}
+nav a{font-weight:500}
+.menu-toggle{display:none;font-size:26px;cursor:pointer}
+
+@media(max-width:768px){
+  nav{
+    position:fixed;
+    left:-100%;
+    top:0;
+    height:100%;
+    width:260px;
+    background:#0073e6;
+    flex-direction:column;
+    padding-top:80px;
+    transition:.3s;
   }
+  nav.open{left:0}
+  nav a{margin:20px;font-size:18px}
+  .menu-toggle{display:block}
 }
 
-/* ================= HEADER ================= */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #0073e6;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-}
-header h2 { font-size: 22px; }
-nav { display: flex; gap: 25px; }
-nav a { font-weight: 500; }
-
-.menu-toggle { display: none; font-size: 28px; cursor: pointer; }
-.nav-close {
-  display: none;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 26px;
-  cursor: pointer;
-  color: #fff;
-}
-
-@media (max-width:768px) {
-  nav {
-    position: fixed;
-    left: -100%;
-    top: 0;
-    height: 100%;
-    width: 250px;
-    background: #0073e6;
-    flex-direction: column;
-    padding-top: 80px;
-    transition: left 0.3s ease;
-    z-index: 999;
-  }
-  nav.open { left: 0; }
-  nav a { color: #fff; margin: 20px 0; font-size: 18px; }
-  .menu-toggle { display: block; color: #fff; }
-  .nav-close { display: block; }
-
-  .backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 998;
-  }
-  .backdrop.show { display: block; }
-}
-
-/* ================= HERO ================= */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #fff;
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#fff;
   background:
-    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
     url('images/hero-bg.png') center/cover no-repeat;
 }
-.hero h1 {
-  font-size: 48px;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: heroTitle 1.2s ease forwards;
+.hero-content>*{
+  opacity:0;
+  transform:translateY(25px);
+  animation:fadeUp .9s ease forwards;
 }
-.hero p {
-  font-size: 20px;
-  max-width: 800px;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: heroText 1s ease forwards;
-  animation-delay: 0.4s;
+.hero-content h1{font-size:48px;animation-delay:.1s}
+.hero-content p{font-size:20px;max-width:950px;margin:auto;animation-delay:.3s}
+.hero-content a{animation-delay:.5s}
+
+@keyframes fadeUp{to{opacity:1;transform:none}}
+
+.btn-primary{
+  display:inline-block;
+  margin-top:30px;
+  padding:14px 36px;
+  background:#25D366;
+  color:#fff;
+  border-radius:40px;
+  font-weight:600;
+  transition:.3s;
+}
+.btn-primary:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 30px rgba(37,211,102,.4);
 }
 
-/* ================= SECTIONS ================= */
-.section-alt-1 { background: #f9f9f9; }
-.section-alt-2 { background: #fff; }
+/* COMMON */
+.section-alt{background:#f9f9f9}
+.section-heading{
+  text-align:center;
+  opacity:0;
+  transform:translateY(20px);
+  transition:.8s;
+}
+.section-heading.visible{opacity:1;transform:none}
+.section-heading::after{
+  content:"";
+  display:block;
+  width:60px;
+  height:4px;
+  background:#0073e6;
+  margin:12px auto 0;
+}
+.section-content{
+  max-width:1050px;
+  margin:0 auto;
+  text-align:center;
+  opacity:0;
+  transform:translateY(20px);
+  transition:.8s;
+}
+.section-content.visible{opacity:1;transform:none}
 
-/* Subtle background shimmer */
-.section-alt-1::before,
-.section-alt-2::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    transparent 30%,
-    rgba(0,115,230,0.04),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-.section-bg-visible::before { opacity: 1; }
-
-/* ================= HEADINGS ================= */
-.section-heading {
-  text-align: center;
-  opacity: 0;
-  transform: translateY(25px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.section-heading.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.section-heading::after {
-  content: "";
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: #0073e6;
-  margin: 12px auto 0;
-  border-radius: 2px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+  margin-top:50px;
 }
 
-/* ================= CONTENT & CARDS ================= */
-.section-content {
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+.card{
+  background:#fff;
+  padding:32px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  text-align:center;
+  opacity:0;
+  transform:translateY(25px);
+  transition:.6s;
 }
-.section-content.visible {
-  opacity: 1;
-  transform: translateY(0);
+.card.visible{opacity:1;transform:none}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 18px 35px rgba(0,0,0,.12);
 }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-  margin-top: 40px;
-}
-
-.card {
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-  text-align: center;
-  opacity: 0;
-  transform: translateY(25px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.card strong {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 18px;
-  color: #0073e6;
+.card i{
+  font-size:36px;
+  color:#0073e6;
+  margin-bottom:15px;
 }
 
-/* ================= FOOTER ================= */
-footer {
-  background: #222;
-  color: #fff;
-  text-align: center;
-  padding: 40px 20px;
+/* WORK */
+.work-img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:15px;
+  box-shadow:0 6px 15px rgba(0,0,0,.15);
 }
 
-/* ================= ANIMATIONS ================= */
-@keyframes heroTitle {
-  to { opacity: 1; transform: translateY(0); }
+/* PRICING */
+.pricing-card{border-top:5px solid #0073e6}
+.pricing-card h2{font-size:38px;margin:15px 0}
+
+/* FOOTER */
+footer{
+  background:#222;
+  color:#fff;
+  text-align:center;
+  padding:80px 20px;
 }
-@keyframes heroText {
-  to { opacity: 1; transform: translateY(0); }
+
+/* WHATSAPP FLOAT */
+.whatsapp-float{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  background:#25D366;
+  color:#fff;
+  padding:15px 18px;
+  border-radius:50px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
+.whatsapp-float i{font-size:22px}
 </style>
 </head>
 
@@ -222,197 +196,191 @@ footer {
   <span class="menu-toggle"><i class="bi bi-list"></i></span>
   <h2>IMATT WEB SOLUTIONS</h2>
   <nav>
-    <span class="nav-close"><i class="bi bi-x-lg"></i></span>
-    <a href="#who-we-are">Who We Are</a>
+    <a href="#who">Who We Are</a>
+    <a href="#work">Work</a>
+    <a href="#process">Process</a>
     <a href="#features">Features</a>
-    <a href="#work">Our Work</a>
+    <a href="#testimonials">Testimonials</a>
     <a href="#pricing">Pricing</a>
   </nav>
 </header>
-<div class="backdrop"></div>
 
 <!-- HERO -->
 <section class="hero">
-  <h1>Modern Websites That Grow Your Business</h1>
-  <p>
-    We design and develop professional websites that help businesses build trust,
-    communicate value clearly, and convert visitors into real enquiries.
-    Every website we create is carefully crafted to support long-term growth.
-  </p>
-</section>
-
-<!-- SELECTED WORK -->
-<section id="work" class="section-alt-1">
-  <h3 class="section-heading">Selected Work</h3>
-  <p class="section-content">
-    Over the years, we’ve had the opportunity to work with businesses from a wide range of industries.
-    Our selected work reflects our focus on clean design, strong usability, and websites that deliver measurable results.
-    Each project is approached with the same attention to detail and commitment to quality.
-  </p>
-  <div class="grid">
-    <div class="card">Business websites designed to establish credibility and generate consistent enquiries.</div>
-    <div class="card">E-commerce stores built for speed, mobile usability, and higher conversion rates.</div>
-    <div class="card">Portfolio and brochure websites that clearly showcase services, skills, and experience.</div>
-  </div>
-</section>
-
-<!-- WORK COMPLETED -->
-<section class="section-alt-2">
-  <h3 class="section-heading">Work Completed</h3>
-  <p class="section-content">
-    We take pride in delivering websites that genuinely help our clients move forward.
-    Below are some recent projects completed for local and growing businesses,
-    each tailored to suit the client’s brand, audience, and business objectives.
-  </p>
-  <div class="grid">
-    <div class="card">
-      <strong>Pensnett Fish Bar</strong>
-      <p>A mobile-friendly takeaway website designed to display menus clearly, highlight opening hours, and make contact simple for customers.</p>
-    </div>
-    <div class="card">
-      <strong>Gulf Motors</strong>
-      <p>A professional automotive website focused on showcasing vehicles, building customer trust, and increasing enquiry rates.</p>
-    </div>
-    <div class="card">
-      <strong>Chicken Star</strong>
-      <p>A modern food business website that highlights branding, menu items, and fast communication options for customers.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing" class="section-alt-1">
-  <h3 class="section-heading">Pricing Packages</h3>
-  <p class="section-content">
-    Our pricing is clear, transparent, and designed to suit businesses at different stages.
-    We focus on delivering value rather than unnecessary extras, ensuring you get a website that performs.
-    Every package can be tailored to your specific requirements.
-  </p>
-  <div class="grid">
-    <div class="card">Starter – Ideal for small businesses needing a professional online presence. From 199</div>
-    <div class="card">Professional – Perfect for growing businesses looking for SEO and scalability. From 399</div>
-    <div class="card">Premium – Advanced websites with custom design and ongoing support. From 699</div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section class="section-alt-2">
-  <h3 class="section-heading">Our Process</h3>
-  <p class="section-content">
-    We follow a proven, structured process to ensure every project runs smoothly.
-    Clear communication and transparency are maintained at every stage,
-    allowing us to deliver reliable results on time and within scope.
-  </p>
-  <div class="grid">
-    <div class="card">Strategy & discovery to understand your goals and audience.</div>
-    <div class="card">Design focused on usability, branding, and conversion.</div>
-    <div class="card">Development using clean, secure, and responsive code.</div>
-    <div class="card">Launch, testing, and post-launch guidance.</div>
+  <div class="hero-content">
+    <h1>Modern Websites That Help Small Businesses Grow</h1>
+    <p>
+      IMATT Web Solutions designs and develops professional, high-performing websites
+      for small and growing businesses. Our focus is on clarity, trust, and conversion —
+      helping you turn visitors into real enquiries.
+    </p>
+    <a href="https://wa.me/447436381518" class="btn-primary">Chat on WhatsApp</a>
   </div>
 </section>
 
 <!-- WHO WE ARE -->
-<section id="who-we-are" class="section-alt-1">
+<section id="who" class="section-alt">
   <h3 class="section-heading">Who We Are</h3>
-  <p class="section-content">
-    IMATT Web Solutions is a UK-based web design and development studio dedicated to helping
-    small and growing businesses succeed online. We combine creative design, technical expertise,
-    and strategic thinking to build websites that support real business goals.
-    By working closely with our clients, we ensure every project reflects their brand,
-    connects with their audience, and delivers lasting value.
-  </p>
+  <div class="section-content">
+    <p>
+      IMATT Web Solutions is a UK-based web design and development studio specialising
+      in helping small businesses establish a strong and professional online presence.
+      We understand the challenges small business owners face — limited time, limited budgets,
+      and the need for a website that actually delivers results.
+    </p>
+    <p>
+      Rather than offering generic templates or one-size-fits-all solutions,
+      we take the time to understand your business, your customers, and your goals.
+      Every website we build is designed to clearly communicate your value,
+      build trust with visitors, and encourage meaningful action.
+    </p>
+    <p>
+      Our approach combines clean design, responsive development, and practical strategy.
+      Whether you need a simple business website or a more advanced solution,
+      our goal is always the same: to create a website that works as a reliable
+      growth tool for your business.
+    </p>
+  </div>
 </section>
 
-<!-- WHAT MAKES US DIFFERENT -->
-<section class="section-alt-2">
-  <h3 class="section-heading">What Makes Our Websites Different</h3>
+<!-- WORK -->
+<section id="work">
+  <h3 class="section-heading">Our Work</h3>
   <p class="section-content">
-    We don’t believe in one-size-fits-all solutions. Every website we build is designed
-    with performance, clarity, and conversion in mind.
-    Our focus is on creating digital experiences that work as effective business tools.
+    We’ve worked with a wide range of small businesses across different industries.
+    Our projects focus on usability, performance, and clear communication —
+    ensuring each website supports real business objectives.
   </p>
   <div class="grid">
-    <div class="card">Layouts designed to guide users toward meaningful actions.</div>
-    <div class="card">Fast-loading, mobile-first performance across all devices.</div>
-    <div class="card">SEO-friendly structure built to improve online visibility.</div>
+    <div class="card">
+<img src="images/pensnett-fish.jpg" alt="Pensnett Fish Bar Website" class="work-img">
+
+      <h4>Pensnett Fish Bar</h4>
+      <p>
+        A clean, mobile-friendly website designed to establish trust,
+        showcase services clearly, and generate consistent enquiries.
+      </p>
+    </div>
+    <div class="card">
+      <img src="images/gulf-motors.jpg" alt="Pensnett Fish Bar Website" class="work-img">
+      <h4>Gulf Motors Ltd</h4>
+      <p>
+        A professional multi-page website built to explain services,
+        answer customer questions, and guide users toward contact.
+      </p>
+    </div>
+    <div class="card">
+      <img src="images/chicken-star.png" alt="Pensnett Fish Bar Website" class="work-img">
+
+      <h4>Chicken Star</h4>
+      <p>
+        A fast-loading, SEO-friendly website designed to present a strong brand
+        and support early business growth.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="section-alt">
+  <h3 class="section-heading">How We Work</h3>
+  <p class="section-content">
+    Our process is simple, transparent, and focused on delivering quality results.
+    We keep communication clear at every stage, so you always know what’s happening.
+  </p>
+  <div class="grid">
+    <div class="card"><i class="bi bi-chat-dots"></i><h4>Discovery & Planning</h4><p>We discuss your business, audience, goals, and competitors.</p></div>
+    <div class="card"><i class="bi bi-pencil"></i><h4>Design</h4><p>We create a clean, user-friendly design aligned with your brand.</p></div>
+    <div class="card"><i class="bi bi-code-slash"></i><h4>Development</h4><p>Your website is built with responsive, fast, and secure code.</p></div>
+    <div class="card"><i class="bi bi-rocket"></i><h4>Launch & Support</h4><p>Testing, launch, and guidance to help you move forward confidently.</p></div>
   </div>
 </section>
 
 <!-- FEATURES -->
-<section id="features" class="section-alt-1">
-  <h3 class="section-heading">Website Features Included</h3>
+<section id="features">
+  <h3 class="section-heading">Website Features</h3>
   <p class="section-content">
-    Every website we deliver includes a comprehensive set of features as standard.
-    These are chosen to enhance user experience, improve performance,
-    and make your website easy to manage and grow.
+    Every website we deliver includes essential features designed
+    to improve user experience, performance, and visibility.
   </p>
   <div class="grid">
-    <div class="card">Fully responsive design for all screen sizes.</div>
-    <div class="card">Optimised loading speed and performance.</div>
-    <div class="card">SEO-ready structure to support organic growth.</div>
-    <div class="card">Clear calls-to-action to encourage enquiries.</div>
+    <div class="card"><i class="bi bi-phone"></i><h4>Fully Responsive</h4><p>Your website looks great on mobiles, tablets, and desktops.</p></div>
+    <div class="card"><i class="bi bi-speedometer2"></i><h4>Fast Performance</h4><p>Optimised loading speeds to reduce bounce rates.</p></div>
+    <div class="card"><i class="bi bi-search"></i><h4>SEO-Ready</h4><p>Clean structure built to support search engine visibility.</p></div>
+    <div class="card"><i class="bi bi-shield-check"></i><h4>Secure & Reliable</h4><p>Best practices applied for safety and stability.</p></div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="section-alt-2">
+<section id="testimonials" class="section-alt">
   <h3 class="section-heading">What Our Clients Say</h3>
   <p class="section-content">
-    Client satisfaction is central to everything we do.
-    We focus on building long-term relationships based on trust, communication, and results.
-    Here’s what some of our clients have said about working with us.
+    We focus on building long-term relationships with our clients.
+    Here’s what some of them have said about working with IMATT Web Solutions.
   </p>
   <div class="grid">
-    <div class="card">“Professional, reliable, and the website has brought us more enquiries.”</div>
-    <div class="card">“Clear communication, fair pricing, and excellent results.”</div>
+    <div class="card"><p>“Professional, reliable, and the website has brought us more enquiries.”</p><strong>Small Business Owner</strong></div>
+    <div class="card"><p>“Clear communication, fair pricing, and excellent results.”</p><strong>Service Company</strong></div>
+    <div class="card"><p>“Highly recommended for small businesses.”</p><strong>Startup Founder</strong></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <h3 class="section-heading">Pricing Packages</h3>
+  <p class="section-content">
+    Simple, transparent pricing designed for small businesses.
+    Every package can be tailored to your specific needs.
+  </p>
+  <div class="grid">
+    <div class="card pricing-card">
+      <strong>Starter</strong>
+      <h2>£199</h2>
+      <p>Ideal for small businesses needing a professional online presence.</p>
+      <a href="https://wa.me/447000000000" class="btn-primary">Enquire</a>
+    </div>
+    <div class="card pricing-card">
+      <strong>Professional</strong>
+      <h2>£399</h2>
+      <p>Perfect for growing businesses looking to scale and improve SEO.</p>
+      <a href="https://wa.me/447000000000" class="btn-primary">Enquire</a>
+    </div>
+    <div class="card pricing-card">
+      <strong>Premium</strong>
+      <h2>£699</h2>
+      <p>Custom solutions with advanced features and long-term support.</p>
+      <a href="https://wa.me/447000000000" class="btn-primary">Enquire</a>
+    </div>
   </div>
 </section>
 
 <footer>
-  <p>&copy; 2025 IMATT Web Solutions. All rights reserved.</p>
+  <h3>Ready to Grow Your Business?</h3>
+  <p>Message us on WhatsApp for a quick, no-obligation conversation.</p>
+  <a href="https://wa.me/447000000000" class="btn-primary">Chat on WhatsApp</a>
+  <p style="margin-top:30px;">© 2025 IMATT Web Solutions</p>
 </footer>
 
+<a href="https://wa.me/447000000000" class="whatsapp-float">
+  <i class="bi bi-whatsapp"></i> Chat
+</a>
+
 <script>
-/* Mobile menu */
-const menuToggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('nav');
-const backdrop = document.querySelector('.backdrop');
-const navClose = document.querySelector('.nav-close');
-
-menuToggle.addEventListener('click', () => {
-  nav.classList.add('open');
-  backdrop.classList.add('show');
+window.addEventListener('scroll',()=>{
+  document.querySelector('header')
+    .classList.toggle('scrolled',window.scrollY>20);
 });
-function closeMenu() {
-  nav.classList.remove('open');
-  backdrop.classList.remove('show');
-}
-navClose.addEventListener('click', closeMenu);
-backdrop.addEventListener('click', closeMenu);
 
-/* Observers */
-const headingObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
-}, { threshold: 0.3 });
-document.querySelectorAll('.section-heading').forEach(h => headingObserver.observe(h));
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>e.isIntersecting&&e.target.classList.add('visible'));
+},{threshold:.3});
 
-const contentObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
-}, { threshold: 0.3 });
-document.querySelectorAll('.section-content').forEach(p => contentObserver.observe(p));
+document.querySelectorAll('.section-heading,.section-content,.card')
+  .forEach(el=>observer.observe(el));
 
-const sectionObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('section-bg-visible');
-      entry.target.querySelectorAll('.card').forEach((card, i) => {
-        setTimeout(() => card.classList.add('visible'), i * 120);
-      });
-      sectionObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('section').forEach(sec => sectionObserver.observe(sec));
+document.querySelector('.menu-toggle').onclick=()=>{
+  document.querySelector('nav').classList.toggle('open');
+};
 </script>
 
 </body>
