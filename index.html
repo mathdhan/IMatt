@@ -10,13 +10,32 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
+/* THEME VARIABLES */
+:root{
+  --bg:#ffffff;
+  --text:#333;
+  --card:#ffffff;
+  --accent:#0073e6;
+}
+
+body.dark{
+  --bg:#0f172a;
+  --text:#e5e7eb;
+  --card:#1e293b;
+  --accent:#38bdf8;
+}
+
 body{
   font-family:'Inter',sans-serif;
-  color:#333;
+  background:var(--bg);
+  color:var(--text);
   line-height:1.7;
   scroll-behavior:smooth;
+  transition:.4s;
 }
-section{padding:90px 20px;position:relative}
+
+section{padding:90px 20px}
 h1,h2,h3,h4{font-weight:700;margin-bottom:15px}
 p{margin-bottom:18px}
 a{text-decoration:none;color:inherit}
@@ -26,19 +45,29 @@ header{
   position:sticky;
   top:0;
   z-index:1000;
-  background:#0073e6;
+  background:linear-gradient(135deg,#0073e6,#005bb5);
   color:#fff;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   padding:15px 40px;
-  transition:.3s;
 }
-header.scrolled{box-shadow:0 6px 15px rgba(0,0,0,.2)}
+header.scrolled{box-shadow:0 6px 15px rgba(0,0,0,.25)}
+
 nav{display:flex;gap:25px}
 nav a{font-weight:500}
-.menu-toggle{display:none;font-size:26px;cursor:pointer}
 
+/* MOBILE HEADER */
+@media(max-width:768px){
+  header{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    padding:15px 20px;
+  }
+  header h2{justify-self:center;font-size:18px}
+}
+
+/* MOBILE MENU */
 @media(max-width:768px){
   nav{
     position:fixed;
@@ -46,15 +75,39 @@ nav a{font-weight:500}
     top:0;
     height:100%;
     width:260px;
-    background:#0073e6;
+    background:linear-gradient(180deg,#0073e6,#005bb5);
     flex-direction:column;
     padding-top:80px;
     transition:.3s;
   }
   nav.open{left:0}
   nav a{margin:20px;font-size:18px}
-  .menu-toggle{display:block}
 }
+
+/* HAMBURGER */
+.menu-toggle{
+  width:30px;
+  height:22px;
+  display:none;
+  flex-direction:column;
+  justify-content:space-between;
+  cursor:pointer;
+}
+.menu-toggle span{
+  height:3px;
+  background:#fff;
+  border-radius:3px;
+  transition:.4s;
+}
+@media(max-width:768px){.menu-toggle{display:flex}}
+
+/* HAMBURGER TO X */
+.menu-toggle.active span:nth-child(1){transform:translateY(9px) rotate(45deg)}
+.menu-toggle.active span:nth-child(2){opacity:0}
+.menu-toggle.active span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+
+/* DARK MODE TOGGLE */
+.theme-toggle{cursor:pointer;font-size:20px}
 
 /* HERO */
 .hero{
@@ -68,34 +121,25 @@ nav a{font-weight:500}
     linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
     url('images/hero-bg.png') center/cover no-repeat;
 }
-.hero-content>*{
-  opacity:0;
-  transform:translateY(25px);
-  animation:fadeUp .9s ease forwards;
-}
-.hero-content h1{font-size:48px;animation-delay:.1s}
-.hero-content p{font-size:20px;max-width:950px;margin:auto;animation-delay:.3s}
-.hero-content a{animation-delay:.5s}
 
-@keyframes fadeUp{to{opacity:1;transform:none}}
+/* SECTION GRADIENTS */
+#who{background:linear-gradient(#f9fafb,#eef2f7)}
+#work{background:linear-gradient(#eef4ff,#e0ecff)}
+#process{background:linear-gradient(#ecfdf5,#d1fae5)}
+#features{background:linear-gradient(#ffffff,#f3f4f6)}
+#testimonials{background:linear-gradient(#f5f3ff,#ede9fe)}
+#pricing{background:linear-gradient(#fff7ed,#ffedd5)}
 
-.btn-primary{
-  display:inline-block;
-  margin-top:30px;
-  padding:14px 36px;
-  background:#25D366;
-  color:#fff;
-  border-radius:40px;
-  font-weight:600;
-  transition:.3s;
-}
-.btn-primary:hover{
-  transform:translateY(-4px);
-  box-shadow:0 12px 30px rgba(37,211,102,.4);
+body.dark #who,
+body.dark #work,
+body.dark #process,
+body.dark #features,
+body.dark #testimonials,
+body.dark #pricing{
+  background:linear-gradient(#0f172a,#020617);
 }
 
 /* COMMON */
-.section-alt{background:#f9f9f9}
 .section-heading{
   text-align:center;
   opacity:0;
@@ -108,9 +152,10 @@ nav a{font-weight:500}
   display:block;
   width:60px;
   height:4px;
-  background:#0073e6;
+  background:var(--accent);
   margin:12px auto 0;
 }
+
 .section-content{
   max-width:1050px;
   margin:0 auto;
@@ -129,25 +174,14 @@ nav a{font-weight:500}
 }
 
 .card{
-  background:#fff;
+  background:var(--card);
   padding:32px;
   border-radius:14px;
   box-shadow:0 6px 18px rgba(0,0,0,.08);
-  text-align:center;
-  opacity:0;
-  transform:translateY(25px);
-  transition:.6s;
+  transition:.4s;
 }
-.card.visible{opacity:1;transform:none}
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 18px 35px rgba(0,0,0,.12);
-}
-.card i{
-  font-size:36px;
-  color:#0073e6;
-  margin-bottom:15px;
-}
+.card:hover{transform:translateY(-6px)}
+.card i{font-size:36px;color:var(--accent);margin-bottom:15px}
 
 /* WORK */
 .work-img{
@@ -156,22 +190,32 @@ nav a{font-weight:500}
   object-fit:cover;
   border-radius:10px;
   margin-bottom:15px;
-  box-shadow:0 6px 15px rgba(0,0,0,.15);
 }
 
 /* PRICING */
-.pricing-card{border-top:5px solid #0073e6}
+.pricing-card{border-top:5px solid var(--accent)}
 .pricing-card h2{font-size:38px;margin:15px 0}
+
+/* BUTTON */
+.btn-primary{
+  display:inline-block;
+  margin-top:30px;
+  padding:14px 36px;
+  background:#25D366;
+  color:#fff;
+  border-radius:40px;
+  font-weight:600;
+}
 
 /* FOOTER */
 footer{
-  background:#222;
+  background:#020617;
   color:#fff;
   text-align:center;
   padding:80px 20px;
 }
 
-/* WHATSAPP FLOAT */
+/* FLOAT */
 .whatsapp-float{
   position:fixed;
   bottom:25px;
@@ -180,34 +224,34 @@ footer{
   color:#fff;
   padding:15px 18px;
   border-radius:50px;
-  font-weight:600;
   display:flex;
   align-items:center;
   gap:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
-.whatsapp-float i{font-size:22px}
 </style>
 </head>
 
 <body>
 
 <header>
-  <span class="menu-toggle"><i class="bi bi-list"></i></span>
+  <span class="menu-toggle"><span></span><span></span><span></span></span>
   <h2>IMATT WEB SOLUTIONS</h2>
-  <nav>
-    <a href="#who">Who We Are</a>
-    <a href="#work">Work</a>
-    <a href="#process">Process</a>
-    <a href="#features">Features</a>
-    <a href="#testimonials">Testimonials</a>
-    <a href="#pricing">Pricing</a>
-  </nav>
+  <div style="display:flex;align-items:center;gap:15px">
+    <nav>
+      <a href="#who">Who We Are</a>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#features">Features</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <span class="theme-toggle">🌙</span>
+  </div>
 </header>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-content">
+  <div>
     <h1>Modern Websites That Help Small Businesses Grow</h1>
     <p>
       IMATT Web Solutions designs and develops professional, high-performing websites
@@ -219,7 +263,7 @@ footer{
 </section>
 
 <!-- WHO WE ARE -->
-<section id="who" class="section-alt">
+<section id="who">
   <h3 class="section-heading">Who We Are</h3>
   <div class="section-content">
     <p>
@@ -253,8 +297,7 @@ footer{
   </p>
   <div class="grid">
     <div class="card">
-<img src="images/pensnett-fish.jpg" alt="Pensnett Fish Bar Website" class="work-img">
-
+      <img src="images/pensnett-fish.jpg" class="work-img">
       <h4>Pensnett Fish Bar</h4>
       <p>
         A clean, mobile-friendly website designed to establish trust,
@@ -262,7 +305,7 @@ footer{
       </p>
     </div>
     <div class="card">
-      <img src="images/gulf-motors.jpg" alt="Pensnett Fish Bar Website" class="work-img">
+      <img src="images/gulf-motors.jpg" class="work-img">
       <h4>Gulf Motors Ltd</h4>
       <p>
         A professional multi-page website built to explain services,
@@ -270,8 +313,7 @@ footer{
       </p>
     </div>
     <div class="card">
-      <img src="images/chicken-star.png" alt="Pensnett Fish Bar Website" class="work-img">
-
+      <img src="images/chicken-star.png" class="work-img">
       <h4>Chicken Star</h4>
       <p>
         A fast-loading, SEO-friendly website designed to present a strong brand
@@ -282,7 +324,7 @@ footer{
 </section>
 
 <!-- PROCESS -->
-<section id="process" class="section-alt">
+<section id="process">
   <h3 class="section-heading">How We Work</h3>
   <p class="section-content">
     Our process is simple, transparent, and focused on delivering quality results.
@@ -312,7 +354,7 @@ footer{
 </section>
 
 <!-- TESTIMONIALS -->
-<section id="testimonials" class="section-alt">
+<section id="testimonials">
   <h3 class="section-heading">What Our Clients Say</h3>
   <p class="section-content">
     We focus on building long-term relationships with our clients.
@@ -325,7 +367,7 @@ footer{
   </div>
 </section>
 
-<!-- PRICING -->
+<!-- PRICING (RESTORED EXACTLY) -->
 <section id="pricing">
   <h3 class="section-heading">Pricing Packages</h3>
   <p class="section-content">
@@ -366,21 +408,27 @@ footer{
 </a>
 
 <script>
-window.addEventListener('scroll',()=>{
-  document.querySelector('header')
-    .classList.toggle('scrolled',window.scrollY>20);
-});
+/* SCROLL */
+window.addEventListener('scroll',()=>document.querySelector('header')
+  .classList.toggle('scrolled',scrollY>20));
 
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>e.isIntersecting&&e.target.classList.add('visible'));
-},{threshold:.3});
+/* OBSERVER */
+const o=new IntersectionObserver(e=>e.forEach(i=>i.isIntersecting&&i.target.classList.add('visible')),{threshold:.3});
+document.querySelectorAll('.section-heading,.section-content,.card').forEach(el=>o.observe(el));
 
-document.querySelectorAll('.section-heading,.section-content,.card')
-  .forEach(el=>observer.observe(el));
-
+/* MENU */
 document.querySelector('.menu-toggle').onclick=()=>{
   document.querySelector('nav').classList.toggle('open');
+  document.querySelector('.menu-toggle').classList.toggle('active');
 };
+
+/* DARK MODE */
+const t=document.querySelector('.theme-toggle');
+t.onclick=()=>{
+  document.body.classList.toggle('dark');
+  localStorage.setItem('theme',document.body.classList.contains('dark')?'dark':'light');
+};
+if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');
 </script>
 
 </body>
