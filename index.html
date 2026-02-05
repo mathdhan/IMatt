@@ -241,6 +241,24 @@ footer{
   align-items:center;
   gap:10px;
 }
+
+.site-heading {
+  font-size: 1.1rem; /* small heading size */
+  margin: 0;
+}
+
+.site-heading a {
+  text-decoration: none;
+  color: #1a1a1a; /* change to your brand color */
+  font-weight: 600;
+}
+
+.site-heading a:hover {
+  text-decoration: underline;
+  color: #0056b3; /* hover color */
+}
+
+  
 </style>
 </head>
 
@@ -321,7 +339,12 @@ footer{
     <div class="card">
       <img src="images/gulf.jpeg" class="work-img">
       <h4>Gulf Motors used car dealership</h4>
-      <p>https://www.gulfmotors.co.uk</p>
+      <h4 class="site-heading">
+  <a href="https://www.gulfmotors.co.uk" target="_blank" rel="noopener">
+    Gulf Motors
+  </a>
+</h4> 
+      
       <p>
         A professional multi-page website built to explain services,
         answer customer questions, and guide users toward contact.
@@ -475,6 +498,7 @@ nav.querySelectorAll('a').forEach(link => {
 
 </body>
 </html>
+
 
 
 
